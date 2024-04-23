@@ -1,18 +1,17 @@
 package postSocialMedia.postSocialMedia.service;
-
-import postSocialMedia.postSocialMedia.dto.PostRequestDTO;
+import postSocialMedia.postSocialMedia.dto.PostsDTO;
 import postSocialMedia.postSocialMedia.model.Posts;
 
 import java.util.List;
 
 public interface PostagensService {
-    List<Posts> findAll();
+    List<PostsDTO> findAll();
 
-    Posts findById(Long id);
+    PostsDTO findById(Long id);
 
-    Posts save(PostRequestDTO postagens);
+    PostsDTO save(Posts posts);
 
     Posts update(Posts postagens);
 
-    Posts delete(Long id);
+    PostsDTO delete(Long id);
 }

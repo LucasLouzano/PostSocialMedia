@@ -3,6 +3,8 @@ package postSocialMedia.postSocialMedia.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import postSocialMedia.postSocialMedia.dto.PostRequestDTO;
+import postSocialMedia.postSocialMedia.dto.PostsDTO;
+import postSocialMedia.postSocialMedia.mapper.PostsMapper;
 import postSocialMedia.postSocialMedia.model.Posts;
 import postSocialMedia.postSocialMedia.repository.PostagensRepository;
 import postSocialMedia.postSocialMedia.service.PostagensService;
@@ -15,24 +17,27 @@ import java.util.Optional;
 public class PostagensServiceImpl implements PostagensService {
     @Autowired
     private PostagensRepository repository;
+    @Autowired
+    private PostsMapper postsMapper;
 
     @Override
-    public List<Posts> findAll() {
-        return repository.findAll();
+    public List<PostsDTO> findAll() {
+        return repository.findAll()
+                .stream()
+                .map(postsMapper::postsToPostsDTO).toList();
     }
 
     @Override
-    public Posts findById(Long id) {
-        Optional<Posts> postagensOptional = repository.findById(id);
-        return postagensOptional.orElse(null);
+    public PostsDTO findById(Long id) {
+        Posts postagensOptional = repository.findById(id).get();
+        return postsMapper.postsToPostsDTO(postagensOptional);
     }
 
     @Override
-    public Posts save(PostRequestDTO postagens) {
-        Posts posts = new Posts();
+    public PostsDTO save(Posts posts) {
         posts.setCreateDateTime(LocalDateTime.now());
-        posts.setTexto(postagens.text());
-        return repository.save(posts);
+        Posts posts1 = repository.save(posts);
+        return postsMapper.postsToPostsDTO(posts1);
     }
 
     @Override
@@ -45,15 +50,9 @@ public class PostagensServiceImpl implements PostagensService {
     }
 
     @Override
-    public Posts delete(Long id) {
-        Optional<Posts> optionalPostagens = repository.findById(id);
-        if (optionalPostagens.isPresent()) {
-            Posts postsDelete = optionalPostagens.get();
-            repository.delete(postsDelete);
-            return postsDelete;
-        } else {
-            return null;
-        }
+    public PostsDTO delete(Long id) {
+        Posts postagens = repository.findById(id).get();
+        repository.delete(postagens);
+        return postsMapper.postsToPostsDTO(postagens);
     }
 }
-
