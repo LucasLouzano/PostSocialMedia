@@ -2,21 +2,19 @@ package postSocialMedia.postSocialMedia.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import postSocialMedia.postSocialMedia.dto.PostRequestDTO;
 import postSocialMedia.postSocialMedia.dto.PostsDTO;
 import postSocialMedia.postSocialMedia.mapper.PostsMapper;
 import postSocialMedia.postSocialMedia.model.Posts;
-import postSocialMedia.postSocialMedia.repository.PostagensRepository;
-import postSocialMedia.postSocialMedia.service.PostagensService;
+import postSocialMedia.postSocialMedia.repository.PostsRepository;
+import postSocialMedia.postSocialMedia.service.PostsService;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class PostagensServiceImpl implements PostagensService {
+public class PostsServiceImpl implements PostsService {
     @Autowired
-    private PostagensRepository repository;
+    private PostsRepository repository;
     @Autowired
     private PostsMapper postsMapper;
 

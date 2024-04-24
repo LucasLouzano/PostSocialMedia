@@ -4,7 +4,7 @@ import postSocialMedia.postSocialMedia.model.Posts;
 
 import java.util.List;
 
-public interface PostagensService {
+public interface PostsService {
     List<PostsDTO> findAll();
 
     PostsDTO findById(Long id);

@@ -5,23 +5,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import postSocialMedia.postSocialMedia.dto.PostRequestDTO;
 import postSocialMedia.postSocialMedia.dto.PostsDTO;
 import postSocialMedia.postSocialMedia.mapper.PostsMapper;
 import postSocialMedia.postSocialMedia.model.Posts;
-import postSocialMedia.postSocialMedia.service.PostagensService;
+import postSocialMedia.postSocialMedia.service.PostsService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
 @CrossOrigin(origins = "*")
-public class PostagensController {
+public class PostsController {
     @Autowired
-    private PostagensService service;
+    private PostsService service;
     @Autowired
     private PostsMapper postsMapper;
     @Operation(summary = "Obter todos os posts", description = "Retorna uma lista de todos os posts.")
