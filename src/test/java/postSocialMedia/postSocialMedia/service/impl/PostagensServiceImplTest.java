@@ -40,7 +40,7 @@ class PostagensServiceImplTest {
         postsList.add(post);
         when(repository.findAll()).thenReturn(postsList);
 
-        PostsDTO postsDTO = new PostsDTO(post.getTexto(), post.getCreateDateTime());
+        PostsDTO postsDTO = new PostsDTO(post.getTexto());
         when(mapper.postsToPostsDTO(post)).thenReturn(postsDTO);
 
         List<PostsDTO> response = service.findAll();
@@ -49,7 +49,7 @@ class PostagensServiceImplTest {
         assertEquals(1,response.size());
         PostsDTO postsDTO1 = response.get(0);
         assertEquals(post.getTexto(), postsDTO1.getTexto());
-        assertEquals(post.getCreateDateTime(), postsDTO1.getCreateDateTime());
+
     }
 
     @Test
@@ -63,7 +63,6 @@ class PostagensServiceImplTest {
 
         var postsDTO = new PostsDTO();
         postsDTO.setTexto(posts.getTexto());
-        postsDTO.setCreateDateTime(posts.getCreateDateTime());
         when(mapper.postsToPostsDTO(posts)).thenReturn(postsDTO);
 
 
@@ -71,7 +70,6 @@ class PostagensServiceImplTest {
 
         assertNotNull(response);
         assertEquals(posts.getTexto(), postsDTO.getTexto());
-        assertEquals(posts.getCreateDateTime(), postsDTO.getCreateDateTime());
     }
 
     @Test
@@ -85,14 +83,12 @@ class PostagensServiceImplTest {
 
         var postsDTO = new PostsDTO();
         postsDTO.setTexto(posts.getTexto());
-        postsDTO.setCreateDateTime(posts.getCreateDateTime());
         when(mapper.postsToPostsDTO(posts)).thenReturn(postsDTO);
 
         PostsDTO dto = service.save(posts);
 
         assertNotNull(dto);
         assertEquals(postsDTO.getTexto(),dto.getTexto());
-        assertEquals(postsDTO.getCreateDateTime(),dto.getCreateDateTime());
 
 
     }
@@ -130,13 +126,11 @@ class PostagensServiceImplTest {
 
         PostsDTO postsDTO = new PostsDTO();
         postsDTO.setTexto(posts.getTexto());
-        postsDTO.setCreateDateTime(posts.getCreateDateTime());
         when(mapper.postsToPostsDTO(posts)).thenReturn(postsDTO);
 
         PostsDTO deletedPostDTO = service.delete(1L);
         assertNotNull(deletedPostDTO);
         assertEquals(postsDTO.getTexto(), deletedPostDTO.getTexto());
-        assertEquals(postsDTO.getCreateDateTime(), deletedPostDTO.getCreateDateTime());
 
         verify(repository, times(1)).findById(1L);
         verify(repository, times(1)).delete(posts);

@@ -9,7 +9,7 @@ import postSocialMedia.postSocialMedia.mapper.PostsMapper;
 public class AppConfig {
 
     @Bean
-    public PostsMapper userSystemServiceMapper() {
+    public PostsMapper postsServiceMapper() {
         return Mappers.getMapper(PostsMapper.class);
     }
 
