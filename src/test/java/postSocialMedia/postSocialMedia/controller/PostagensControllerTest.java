@@ -37,7 +37,7 @@ class PostagensControllerTest {
     }
 
 //    @Test
-//    void savePost() {
+//    void savPost() {
 //        var postsDTO = new PostsDTO();
 //        postsDTO.setTexto("Texto");
 //        postsDTO.setCreateDateTime(LocalDateTime.now());
@@ -48,7 +48,7 @@ class PostagensControllerTest {
 //
 //        when(mapper.postsToPostsDTO(postRequestDTO)).thenReturn(postsDTO);
 //
-//       ResponseEntity <PostRequestDTO> responseEntity  = controller.savePost(postRequestDTO);
+//       ResponseEntity <PostRequestDTO> responseEntity  = controller.savPost(postRequestDTO);
 //
 //        assertNotNull(responseEntity);
 //        assertEquals(postsDTO.getTexto(),responseEntity.getTexto());

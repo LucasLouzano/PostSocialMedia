@@ -13,6 +13,7 @@ import postSocialMedia.postSocialMedia.mapper.PostsMapper;
 import postSocialMedia.postSocialMedia.model.Posts;
 import postSocialMedia.postSocialMedia.service.PostsService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,12 +26,13 @@ public class PostsController {
     private PostsMapper postsMapper;
     @Operation(summary = "Obter todos os posts", description = "Retorna uma lista de todos os posts.")
     @GetMapping
-    public ResponseEntity<List<PostsDTO>> getPostagens() {
+    public ResponseEntity<List<PostRequestDTO>> getPostagens() {
         List<PostsDTO> posts = service.findAll();
-        if (posts.isEmpty()) {
+        List<PostRequestDTO> postRequestDTOS = postsMapper.mapDtoToRequest(posts);
+        if (postRequestDTOS.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(posts);
+        return ResponseEntity.ok(postRequestDTOS);
     }
 
     @Operation(summary = "Obter um post por ID", description = "Retorna um post específico com base no ID fornecido.")
@@ -48,24 +50,26 @@ public class PostsController {
 
     @Operation(summary = "Salvar um novo post", description = "Salva um novo post.")
     @PostMapping
-    public ResponseEntity<PostRequestDTO> savePost(@RequestBody @Valid Posts posts){
+    public ResponseEntity<PostRequestDTO> postsSave(@RequestBody @Valid Posts posts){
         PostsDTO postsDTO = service.save(posts);
-        if (postsDTO == null){
+        PostRequestDTO postRequestDTO = postsMapper.postsDtoPostsDto(postsDTO);
+        if (postRequestDTO == null){
             return ResponseEntity.notFound().build();
         }
-        PostRequestDTO postRequestDTO = postsMapper.postsDtoPostsDto(postsDTO);
         return ResponseEntity.ok(postRequestDTO);
     }
 
     @Operation(summary = "Atualizar um post existente", description = "Atualiza um post existente com base no ID fornecido.")
     @PutMapping("/{id}")
-    public ResponseEntity<Posts> updatePost(@PathVariable Long id, @RequestBody @Valid Posts post){
-        post.setId(id);
-        Posts postagens1 = service.update(post);
-        if (postagens1 == null) {
+    public ResponseEntity<PostRequestDTO> updatePost(@PathVariable Long id, @RequestBody @Valid Posts posts){
+        posts.setId(id);
+        posts.setCreateDateTime(LocalDateTime.now());
+        PostsDTO postsDTO = service.update(posts);
+        PostRequestDTO postRequestDTO = postsMapper.postsDtoPostsDto(postsDTO);
+        if (postRequestDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(postagens1);
+        return ResponseEntity.ok().body(postRequestDTO);
     }
     @Operation(summary = "Deletar um post", description = "Deleta um post com base no ID fornecido.")
     @DeleteMapping("/{id}")

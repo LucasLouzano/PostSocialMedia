@@ -1,4 +1,5 @@
 package postSocialMedia.postSocialMedia.service;
+import postSocialMedia.postSocialMedia.dto.PostRequestDTO;
 import postSocialMedia.postSocialMedia.dto.PostsDTO;
 import postSocialMedia.postSocialMedia.model.Posts;
 
@@ -11,7 +12,8 @@ public interface PostsService {
 
     PostsDTO save(Posts posts);
 
-    Posts update(Posts postagens);
+    PostsDTO update(Posts postagens);
 
     PostsDTO delete(Long id);
+
 }

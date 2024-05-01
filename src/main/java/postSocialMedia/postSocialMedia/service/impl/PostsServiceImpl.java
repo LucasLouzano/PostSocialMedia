@@ -7,7 +7,6 @@ import postSocialMedia.postSocialMedia.mapper.PostsMapper;
 import postSocialMedia.postSocialMedia.model.Posts;
 import postSocialMedia.postSocialMedia.repository.PostsRepository;
 import postSocialMedia.postSocialMedia.service.PostsService;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,29 +23,22 @@ public class PostsServiceImpl implements PostsService {
                 .stream()
                 .map(postsMapper::postsToPostsDTO).toList();
     }
-
     @Override
     public PostsDTO findById(Long id) {
-        Posts postagensOptional = repository.findById(id).get();
-        return postsMapper.postsToPostsDTO(postagensOptional);
+        Posts posts = repository.findById(id).get();
+        return postsMapper.postsToPostsDTO(posts);
     }
-
     @Override
     public PostsDTO save(Posts posts) {
         posts.setCreateDateTime(LocalDateTime.now());
-        Posts posts1 = repository.save(posts);
-        return postsMapper.postsToPostsDTO(posts1);
+        Posts post = repository.save(posts);
+        return postsMapper.postsToPostsDTO(post);
     }
-
     @Override
-    public Posts update(Posts postagens) {
-        postagens.setId(postagens.getId());
-        postagens.setAuthor(postagens.getAuthor());
-        postagens.setCreateDateTime(postagens.getCreateDateTime());
-        repository.save(postagens);
-        return postagens;
+    public PostsDTO update(Posts post) {
+        Posts posts = repository.save(post);
+        return postsMapper.postsToPostsDTO(posts);
     }
-
     @Override
     public PostsDTO delete(Long id) {
         Posts postagens = repository.findById(id).get();

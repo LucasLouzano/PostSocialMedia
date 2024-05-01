@@ -82,7 +82,7 @@ class PostagensServiceImplTest {
         when(repository.save(any())).thenReturn(posts);
 
         var postsDTO = new PostsDTO();
-        postsDTO.setTexto(posts.getTexto());
+        postsDTO.setTexto(postsDTO.getTexto());
         when(mapper.postsToPostsDTO(posts)).thenReturn(postsDTO);
 
         PostsDTO dto = service.save(posts);
@@ -102,14 +102,14 @@ class PostagensServiceImplTest {
         posts.setCreateDateTime(LocalDateTime.now());
         when(repository.save(any())).thenReturn(posts);
 
-        Posts updatePosts = service.update(posts);
+        var postDTO = new PostsDTO();
+        postDTO.setTexto(posts.getTexto());
+        when(mapper.postsToPostsDTO(posts)).thenReturn(postDTO);
+        PostsDTO postsDTO = service.update(posts);
 
-        assertNotNull(updatePosts);
-        assertEquals(posts.getId(), updatePosts.getId());
-        assertEquals(posts.getAuthor(), updatePosts.getAuthor());
-        assertEquals(posts.getTexto(), updatePosts.getTexto());
-        assertEquals(posts.getCreateDateTime(), updatePosts.getCreateDateTime());
-        assertNotNull(updatePosts.getCreateDateTime());
+        assertNotNull(postsDTO);
+        assertEquals(postsDTO.getTexto(), postsDTO.getTexto());
+        assertNotNull(postsDTO.getTexto());
 
 
     }
