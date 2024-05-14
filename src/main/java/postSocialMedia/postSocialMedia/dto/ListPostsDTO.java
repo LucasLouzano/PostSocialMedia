@@ -1,15 +1,13 @@
 package postSocialMedia.postSocialMedia.dto;
 
-import lombok.*;
 
-
-public class PostRequestDTO {
+public class ListPostsDTO {
     private String texto;
 
-    public PostRequestDTO() {
+    public ListPostsDTO() {
     }
 
-    public PostRequestDTO(String texto) {
+    public ListPostsDTO(String texto) {
         this.texto = texto;
     }
 

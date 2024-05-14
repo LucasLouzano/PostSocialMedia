@@ -1,9 +1,7 @@
 package postSocialMedia.postSocialMedia.mapper;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import postSocialMedia.postSocialMedia.dto.PostRequestDTO;
-import postSocialMedia.postSocialMedia.dto.PostsDTO;
+import postSocialMedia.postSocialMedia.dto.*;
 import postSocialMedia.postSocialMedia.model.Posts;
 
 import java.util.List;
@@ -13,7 +11,11 @@ public interface PostsMapper {
 
     PostsMapper CONVERTER = Mappers.getMapper(PostsMapper.class);
     PostsDTO postsToPostsDTO(Posts posts);
+    List<ListPostsDTO> postsDtoToListPostsDto(List<PostsDTO> postsDTO);
+    ListPostsDTO postsDtoToListPostsDto(PostsDTO postsDTO);
+    PostsByIdResponse mapToDto(PostsDTO postsDTO);
     PostRequestDTO postsDtoPostsDto(PostsDTO postsDTO);
-    List<PostRequestDTO> mapDtoToRequest(List<PostsDTO> postsDTO);
+    PostsDTOInfo mapPostToDto(PostsDTO postsDTO);
+
 
 }
