@@ -3,6 +3,7 @@ package postSocialMedia.postSocialMedia.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class PostsController {
     public ResponseEntity<List<ListPostsDTO>> getPostagens() {
         List<PostsDTO> postsDTO = service.findAll();
         List<ListPostsDTO> listPostsDTO = postsMapper.postsDtoToListPostsDto(postsDTO);
-        if (listPostsDTO == null || listPostsDTO.isEmpty()) {
+        if (listPostsDTO.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(listPostsDTO);
@@ -51,14 +52,14 @@ public class PostsController {
     @Operation(summary = "Salvar um novo post", description = "Salva um novo post.")
     @PostMapping
     public ResponseEntity<PostRequestDTO> postsSave(@RequestBody @Valid Posts posts){
-        PostsDTO postsDTO = service.save(posts);
-        PostRequestDTO postRequestDTO = postsMapper.postsDtoPostsDto(postsDTO);
-        if (postRequestDTO == null){
+        try {
+            PostsDTO postsDTO = service.save(posts);
+            PostRequestDTO postRequestDTO = postsMapper.postsDtoPostsDto(postsDTO);
+            return ResponseEntity.ok(postRequestDTO);
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(postRequestDTO);
     }
-
     @Operation(summary = "Atualizar um post existente", description = "Atualiza um post existente com base no ID fornecido.")
     @PutMapping("/{id}")
     public ResponseEntity<PostsDTOInfo> updatePost(@PathVariable Long id, @RequestBody @Valid Posts posts){
