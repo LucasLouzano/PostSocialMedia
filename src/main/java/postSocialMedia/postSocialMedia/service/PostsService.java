@@ -1,5 +1,4 @@
 package postSocialMedia.postSocialMedia.service;
-import postSocialMedia.postSocialMedia.dto.PostRequestDTO;
 import postSocialMedia.postSocialMedia.dto.PostsDTO;
 import postSocialMedia.postSocialMedia.model.Posts;
 
