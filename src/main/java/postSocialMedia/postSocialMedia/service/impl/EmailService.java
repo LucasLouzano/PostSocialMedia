@@ -6,8 +6,10 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import postSocialMedia.postSocialMedia.dto.EmailDto;
 import postSocialMedia.postSocialMedia.enums.StatusEmail;
-import postSocialMedia.postSocialMedia.model.Email;
+import postSocialMedia.postSocialMedia.mapper.EmailMapper;
+import postSocialMedia.postSocialMedia.model.EmailModel;
 import postSocialMedia.postSocialMedia.repository.EmailRepository;
 
 import java.time.LocalDateTime;
@@ -19,10 +21,13 @@ public class EmailService {
     private EmailRepository repository;
     @Autowired
     private JavaMailSender emailSender;
+    @Autowired
+    private EmailMapper mapper;
 
     @Transactional
-    public Email sendEmail(Email email) {
+    public EmailDto sendEmail(EmailModel email) {
         email.setSendDateEmail(LocalDateTime.now());
+        EmailModel emailModel = repository.save(email);
         try {
 
             SimpleMailMessage message = new SimpleMailMessage();
@@ -35,10 +40,13 @@ public class EmailService {
             email.setStatusEmail(StatusEmail.SENT);
 
         } catch (MailException e) {
-            email.setStatusEmail(StatusEmail.ERROR);
-        }finally {
 
-            return repository.save(email);
+            email.setStatusEmail(StatusEmail.ERROR);
+
+        } finally {
+
+            return mapper.emailModelToEmailDto(emailModel);
+
         }
     }
 }
